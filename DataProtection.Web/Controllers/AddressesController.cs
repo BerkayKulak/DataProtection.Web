@@ -25,9 +25,15 @@ namespace DataProtection.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var adress = await _context.Addresses.ToListAsync();
+
+            // Şifrelenen dataya ömür biçtik 
+            var timeLimitedProtector = _dataProtector.ToTimeLimitedDataProtector();
+
+
             adress.ForEach(x =>
             {
-                x.EncryptedId = _dataProtector.Protect(x.Id.ToString());
+                // 5 saniye olacak.
+                x.EncryptedId = timeLimitedProtector.Protect(x.Id.ToString(), TimeSpan.FromSeconds(5));
             });
             return View(adress);
         }
@@ -40,7 +46,10 @@ namespace DataProtection.Web.Controllers
                 return NotFound();
             }
 
-            int decryptedId = int.Parse(_dataProtector.Unprotect(id));
+            
+            var timeLimitedProtector = _dataProtector.ToTimeLimitedDataProtector();
+
+            int decryptedId = int.Parse(timeLimitedProtector.Unprotect(id));
 
             var address = await _context.Addresses
                 .FirstOrDefaultAsync(m => m.Id == decryptedId);
