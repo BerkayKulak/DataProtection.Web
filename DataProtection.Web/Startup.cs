@@ -30,6 +30,7 @@ namespace DataProtection.Web
                 opt.UseSqlServer(
                     "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ExampleDb2;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             });
+            services.AddDataProtection();
             services.AddControllersWithViews();
         }
 

@@ -12,5 +12,7 @@ namespace DataProtection.Web.Models
         public string Province { get; set; }
         public string PostCode { get; set; }
         public int? HouseId { get; set; }
+
+
     }
 }
