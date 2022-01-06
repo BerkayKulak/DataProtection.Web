@@ -78,8 +78,6 @@ namespace XSS.Web.Controllers
                 return Redirect("/");
             }
 
-        
-            
         }
 
         public IActionResult Index()
