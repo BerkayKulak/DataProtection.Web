@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WhiteBlackList.Web.Filters;
 using WhiteBlackList.Web.Middleware;
 
 namespace WhiteBlackList.Web
@@ -24,6 +25,7 @@ namespace WhiteBlackList.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<CheckWhiteList>();
             services.Configure<IPList>(Configuration.GetSection("IPList"));
             services.AddControllersWithViews();
         }
@@ -41,6 +43,7 @@ namespace WhiteBlackList.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            //app.UseMiddleware<IPSafeMiddleWare>();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -48,7 +51,7 @@ namespace WhiteBlackList.Web
 
             app.UseAuthorization();
 
-            app.UseMiddleware<IPSafeMiddleWare>();
+           
 
             app.UseEndpoints(endpoints =>
             {
