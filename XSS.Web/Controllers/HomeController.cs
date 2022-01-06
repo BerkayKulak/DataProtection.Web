@@ -51,9 +51,35 @@ namespace XSS.Web.Controllers
             ViewBag.comment = comment;
            
             System.IO.File.AppendAllText("comment.txt", $"{name}-{comment}\n");
-
             return RedirectToAction("CommentAdd");
+        }
 
+        public IActionResult login(string returnUrl = "/")
+        {
+            TempData["returnUrl"] = returnUrl;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult login(string email, string password )
+        {
+            string returnUrl = TempData["returnUrl"].ToString();
+
+            // email ve password kontrolü yap
+
+            // benim domaine aitse doğru döner değilse false döner
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+
+            }
+            else
+            {
+                return Redirect("/");
+            }
+
+        
+            
         }
 
         public IActionResult Index()
