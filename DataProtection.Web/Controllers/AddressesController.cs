@@ -22,6 +22,7 @@ namespace DataProtection.Web.Controllers
         }
 
         // GET: Addresses
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var adress = await _context.Addresses.ToListAsync();
@@ -36,6 +37,15 @@ namespace DataProtection.Web.Controllers
                 x.EncryptedId = timeLimitedProtector.Protect(x.Id.ToString(), TimeSpan.FromSeconds(5));
             });
             return View(adress);
+        }
+
+        [HttpPost]
+        public IActionResult Index(string searchText)
+        {
+            var product =
+                _context.Addresses.FromSqlRaw($"select * from Addresses where Content ='{searchText}'").ToList();
+
+            return View(product);
         }
 
         // GET: Addresses/Details/5
