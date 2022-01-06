@@ -40,10 +40,15 @@ namespace MyWeb.API
                 //    builder.WithOrigins("https://www.mysite2.com").WithHeaders(HeaderNames.ContentType,"x-custom-header");
                 //});
 
-                opts.AddPolicy("AllowSites", builder =>
+                //opts.AddPolicy("AllowSites", builder =>
+                //{
+                //    // þurdaki * ne olursa olsun, nasýl bir domainden istek geliyorsa gelsin, tüm istekleri, tüm subdomainleri kabul et.
+                //    builder.WithOrigins("https://*.example.com").SetIsOriginAllowedToAllowWildcardSubdomains().AllowAnyHeader();
+                //});
+
+                opts.AddPolicy("AllowSites2", builder =>
                 {
-                    // þurdaki * ne olursa olsun, nasýl bir domainden istek geliyorsa gelsin, tüm istekleri, tüm subdomainleri kabul et.
-                    builder.WithOrigins("https://*.example.com").SetIsOriginAllowedToAllowWildcardSubdomains().AllowAnyHeader();
+                    builder.WithOrigins("https://www.example.com").WithMethods("POST","GET").AllowAnyHeader();
                 });
 
             });
