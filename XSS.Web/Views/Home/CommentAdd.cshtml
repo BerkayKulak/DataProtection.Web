@@ -21,12 +21,16 @@
 <h1>
     Yorumlar
 </h1>
-<strong>
-    @ViewBag.name
-</strong>
-<hr/>
-<span>
-    @ViewBag.comment
-</span>
+
+@if (ViewBag.comment != null)
+{
+    foreach (var VARIABLE in ViewBag.comment as string[])
+    {
+        <span>@VARIABLE</span>
+        <hr/>
+        
+    }
+}
+
 </body>
 </html>
