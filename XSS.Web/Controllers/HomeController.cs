@@ -41,6 +41,7 @@ namespace XSS.Web.Controllers
 
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public IActionResult CommentAdd(string name,string comment)
         {

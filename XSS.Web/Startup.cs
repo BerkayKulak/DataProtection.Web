@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace XSS.Web
 {
@@ -23,7 +24,13 @@ namespace XSS.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+
+            services.AddControllersWithViews(opt =>
+            {
+                // benim her post metodu üzerinde bunu belirtmeme gerek kalmýcak
+                opt.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
