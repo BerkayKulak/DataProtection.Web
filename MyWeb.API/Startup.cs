@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Net.Http.Headers;
 
 namespace MyWeb.API
 {
@@ -28,12 +29,23 @@ namespace MyWeb.API
         {
             services.AddCors(opts =>
             {
-                opts.AddDefaultPolicy(builder=>
+                opts.AddPolicy("AllowSites", builder =>
                 {
-                    //AllowAnyMethod = POST , PUT ; GET gibi istekler izinli
-
-                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                    builder.WithOrigins("https://localhost:44396/","https://www.mysitem.com").AllowAnyHeader().AllowAnyMethod();
                 });
+
+                //opts.AddPolicy("AllowSites2", builder =>
+                //{
+                //    // headerimde böyle bir þey olmazsa kabul etmicem.
+                //    builder.WithOrigins("https://www.mysite2.com").WithHeaders(HeaderNames.ContentType,"x-custom-header");
+                //});
+
+                opts.AddPolicy("AllowSites", builder =>
+                {
+                    // þurdaki * ne olursa olsun, nasýl bir domainden istek geliyorsa gelsin, tüm istekleri, tüm subdomainleri kabul et.
+                    builder.WithOrigins("https://*.example.com").SetIsOriginAllowedToAllowWildcardSubdomains().AllowAnyHeader();
+                });
+
             });
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -55,7 +67,7 @@ namespace MyWeb.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors();
+            app.UseCors("AllowSites");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
